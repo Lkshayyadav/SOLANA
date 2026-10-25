@@ -47,10 +47,12 @@ function App() {
             <div className="dashboard-container">
               {/* Header Hero */}
               <div className="dashboard-hero">
-                <div className="hero-tag">✨ Web3 Developer Workbench</div>
-                <h1 className="hero-heading">Explore, Transact & Build on Solana</h1>
+                <div className="hero-tag">⚡ Next-Gen Web3 Workbench</div>
+                <h1 className="hero-heading">
+                  Find the <span className="hero-heading-highlight">fastest path</span> to Solana Web3
+                </h1>
                 <p className="hero-subtext">
-                  Complete developer tools for Devnet testing, native SOL transfers, message verification, DEX swaps, and deep blockchain inspection.
+                  High-performance toolkit for Devnet faucets, native SOL transfers, gasless signature authentication, and deep account inspection.
                 </p>
               </div>
 

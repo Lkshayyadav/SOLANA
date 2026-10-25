@@ -1,10 +1,10 @@
 .send-sol-card {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
-  padding: 28px;
+  padding: 32px;
   box-shadow: var(--shadow-card);
   transition: border-color 0.2s;
 }
@@ -20,17 +20,18 @@
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .send-sol-subtitle {
-  margin: 0 0 20px 0;
+  margin: 0 0 24px 0;
   font-size: 13px;
   color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .input-label {
@@ -49,7 +50,7 @@
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 15px 18px;
   color: #ffffff;
   font-size: 14px;
   font-family: inherit;
@@ -58,34 +59,36 @@
 }
 
 .sol-input:focus {
-  border-color: var(--solana-purple);
-  box-shadow: 0 0 0 3px rgba(153, 69, 255, 0.15);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(255, 85, 29, 0.18);
 }
 
 .sol-input[type="number"] {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .send-button {
   width: 100%;
   background: var(--accent-gradient);
-  color: #080a0f;
+  color: #ffffff;
   font-weight: 700;
   font-size: 15px;
-  padding: 15px;
+  padding: 16px;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 24px rgba(20, 241, 149, 0.25);
-  margin-top: 8px;
+  box-shadow: 0 8px 26px rgba(255, 77, 21, 0.35);
+  margin-top: 10px;
+  letter-spacing: 0.2px;
 }
 
 .send-button:hover:not(:disabled) {
-  opacity: 0.95;
+  background: var(--button-hover-gradient);
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(20, 241, 149, 0.35);
+  box-shadow: 0 12px 30px rgba(255, 77, 21, 0.45);
 }
 
 .send-button:disabled {
@@ -96,10 +99,10 @@
 }
 
 .status-box {
-  margin-top: 18px;
-  padding: 12px 16px;
+  margin-top: 20px;
+  padding: 14px 18px;
   border-radius: 12px;
-  background: rgba(8, 11, 18, 0.9);
+  background: rgba(8, 9, 13, 0.95);
   border: 1px solid var(--border-subtle);
   font-size: 13px;
   color: var(--text-primary);

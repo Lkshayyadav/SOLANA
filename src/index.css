@@ -1,27 +1,32 @@
 :root {
-  --bg-primary: #07090e;
-  --bg-secondary: #0d111a;
-  --bg-card: rgba(15, 20, 30, 0.72);
-  --bg-card-hover: rgba(20, 27, 40, 0.85);
-  --bg-input: rgba(8, 11, 18, 0.85);
+  --bg-primary: #060709;
+  --bg-secondary: #0b0c10;
+  --bg-card: rgba(12, 14, 19, 0.82);
+  --bg-card-hover: rgba(18, 20, 28, 0.92);
+  --bg-input: rgba(8, 9, 13, 0.9);
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(153, 69, 255, 0.35);
-  --border-highlight: rgba(20, 241, 149, 0.35);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-glow: rgba(255, 85, 29, 0.45);
+  --border-highlight: rgba(255, 107, 53, 0.3);
   
-  --solana-purple: #9945FF;
-  --solana-green: #14F195;
-  --accent-cyan: #06b6d4;
-  --accent-warm: #ff5722;
-  --accent-gradient: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
-  --button-hover-gradient: linear-gradient(135deg, #a855f7 0%, #34d399 100%);
+  /* The Entity/Linear Warm Ember Palette from the reference image */
+  --accent-primary: #ff551d;
+  --accent-secondary: #ff7539;
+  --accent-glow: #ff3b00;
+  --accent-gradient: linear-gradient(135deg, #ff4d15 0%, #ff7a3d 100%);
+  --button-hover-gradient: linear-gradient(135deg, #ff632b 0%, #ff8c53 100%);
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  /* Status Colors */
+  --status-success: #00f59b;
+  --status-info: #38bdf8;
+  --status-error: #ff4545;
   
-  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.07);
-  --shadow-glow: 0 0 35px -5px rgba(153, 69, 255, 0.2);
+  --text-primary: #ffffff;
+  --text-secondary: #9da4b0;
+  --text-muted: #646a78;
+  
+  --shadow-card: 0 24px 48px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-glow: 0 0 45px -5px rgba(255, 85, 29, 0.28);
 }
 
 * {
@@ -37,15 +42,16 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Fiery Ember Aura matching the reference image hero */
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(153, 69, 255, 0.18), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 85% 15%, rgba(20, 241, 149, 0.09), transparent 60%),
-    radial-gradient(circle 500px at 10% 70%, rgba(255, 87, 34, 0.06), transparent 70%);
+    radial-gradient(ellipse 90% 55% at 50% -15%, rgba(255, 77, 21, 0.25), transparent 75%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(255, 117, 57, 0.12), transparent 60%),
+    radial-gradient(circle 600px at 15% 80%, rgba(255, 60, 0, 0.07), transparent 70%);
   background-attachment: fixed;
   overflow-x: hidden;
 }
 
-/* Custom modern scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -58,5 +64,5 @@ body {
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 85, 29, 0.4);
 }
