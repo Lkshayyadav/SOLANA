@@ -5,7 +5,8 @@ import './ExplorerCard.css';
 
 // Official Solana Token Program ID (used to query SPL token accounts)
 const TOKEN_PROGRAM_ID = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
-const MAINNET_RPC = 'https://api.mainnet-beta.solana.com';
+// Alchemy Solana Mainnet RPC endpoint (public solana RPC blocks browser requests with 403)
+const MAINNET_RPC = 'https://solana-mainnet.g.alchemy.com/v2/alch_S6FOUrfTXMPRPVYnI0LY-';
 
 export default function ExplorerCard() {
   const { connection: devnetConnection } = useConnection();
