@@ -1,90 +1,111 @@
 .sign-card {
-  background: #131823;
-  border: 1px solid #1e2430;
-  border-radius: 16px;
-  padding: 24px;
-  margin-top: 20px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s;
+}
+
+.sign-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .sign-title {
   margin: 0 0 6px 0;
-  font-size: 18px;
-  color: #f8fafc;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .sign-subtitle {
   margin: 0 0 20px 0;
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--text-secondary);
 }
 
 .message-textarea {
   width: 100%;
   box-sizing: border-box;
-  background: #0b0e14;
-  border: 1px solid #1e2430;
-  border-radius: 10px;
-  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 14px 16px;
   color: #ffffff;
   font-size: 14px;
   font-family: inherit;
   resize: vertical;
-  min-height: 80px;
+  min-height: 90px;
   outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .message-textarea:focus {
-  border-color: #9945FF;
+  border-color: var(--solana-purple);
+  box-shadow: 0 0 0 3px rgba(153, 69, 255, 0.15);
 }
 
 .sign-button {
   width: 100%;
-  background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
-  color: #0b0e14;
+  background: var(--accent-gradient);
+  color: #080a0f;
   font-weight: 700;
   font-size: 15px;
-  padding: 14px;
+  padding: 15px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.1s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(20, 241, 149, 0.25);
 }
 
 .sign-button:hover:not(:disabled) {
   opacity: 0.95;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(20, 241, 149, 0.35);
 }
 
 .sign-button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .signature-result-box {
-  margin-top: 18px;
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: #0b0e14;
-  border: 1px solid #14F195;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(8, 11, 18, 0.95);
+  border: 1px solid rgba(20, 241, 149, 0.3);
+  box-shadow: 0 0 25px -5px rgba(20, 241, 149, 0.15);
 }
 
 .signature-label {
   display: block;
-  font-size: 12px;
-  color: #14F195;
-  font-weight: bold;
+  font-size: 11px;
+  color: var(--solana-green);
+  font-weight: 700;
   margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 .signature-value {
-  font-family: monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   color: #f8fafc;
   word-break: break-all;
-  background: #131823;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #1e2430;
+  background: rgba(14, 18, 27, 0.8);
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  line-height: 1.6;
 }

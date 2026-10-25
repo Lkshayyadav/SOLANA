@@ -115,52 +115,54 @@ export default function AirdropCard() {
 
   return (
     <div className="airdrop-card">
-      <h2 className="airdrop-title">Devnet SOL Faucet</h2>
+      <h2 className="airdrop-title">🪂 Devnet SOL Faucet</h2>
+      <p className="airdrop-subtitle">Request instant test SOL on Solana Devnet to test your smart contracts and dapps.</p>
 
       {/* Wallet Balance Display */}
       <div className="balance-box">
-        <span className="balance-label">Your Wallet Balance:</span>
-        <span className="balance-value">
-          {connected ? (balance !== null ? `${balance.toFixed(4)} SOL` : 'Loading...') : 'Not Connected'}
-        </span>
-        {connected && (
-          <button className="refresh-btn" onClick={fetchBalance} title="Refresh balance">
-            🔄
-          </button>
-        )}
+        <span className="balance-label">Connected Wallet Balance</span>
+        <div className="balance-value-container">
+          <span className="balance-value">
+            {connected ? (balance !== null ? `${balance.toFixed(4)} SOL` : 'Loading...') : '0.00 SOL'}
+          </span>
+          {connected && (
+            <button className="refresh-btn" onClick={fetchBalance} title="Refresh balance">
+              🔄
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Amount Input */}
-      <div className="airdrop-input-box">
-        <label className="input-label">Amount (SOL)</label>
+      <div className="input-box">
+        <div className="input-label-row">
+          <label className="input-label">Request Amount (Max 1 SOL)</label>
+          <span className="tag-devnet">Devnet Faucet</span>
+        </div>
         <input
           type="number"
-          className="airdrop-input"
+          className="sol-input"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          placeholder="e.g. 1"
+          placeholder="1"
           min="0.1"
-          max="2"
+          max="1"
           step="0.5"
+          disabled={loading}
         />
-        <span className="network-badge">Devnet Only</span>
       </div>
 
       {/* Action Button */}
       <button
-        className="airdrop-btn"
+        className="action-btn"
         onClick={handleAirdrop}
         disabled={loading || !connected}
       >
-        {loading ? 'Airdropping...' : connected ? `Request ${amount || 0} SOL Airdrop` : 'Connect Wallet to Airdrop'}
+        {loading ? 'Airdropping 1 SOL...' : connected ? `Request ${amount || 1} SOL Airdrop` : 'Connect Wallet to Request'}
       </button>
 
       {/* Status Feedback Message */}
-      {status && (
-        <div className={`airdrop-status ${status.startsWith('✅') ? 'success' : status.startsWith('⏳') ? 'info' : 'error'}`}>
-          {status}
-        </div>
-      )}
+      {status && <div className="status-box">{status}</div>}
     </div>
   );
 }
