@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import './ExplorerCard.css';
 
 // Official Solana Token Program ID (used to query SPL token accounts)
 const TOKEN_PROGRAM_ID = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+const MAINNET_RPC = 'https://api.mainnet-beta.solana.com';
 
 export default function ExplorerCard() {
-  const { connection } = useConnection();
+  const { connection: devnetConnection } = useConnection();
   const { publicKey } = useWallet();
+
+  // Network selector: 'mainnet' or 'devnet'
+  const [network, setNetwork] = useState('mainnet');
 
   // Search input state
   const [searchAddress, setSearchAddress] = useState('');
@@ -21,8 +25,10 @@ export default function ExplorerCard() {
   const [status, setStatus] = useState('');
 
   // Function to inspect any Solana address
-  const inspectAddress = async (target) => {
+  const inspectAddress = async (target, targetNetwork) => {
     const addressStr = (target || searchAddress).trim();
+    const net = targetNetwork || network;
+
     if (!addressStr) {
       setStatus('⚠️ Please enter a Solana address.');
       return;
@@ -30,20 +36,25 @@ export default function ExplorerCard() {
 
     try {
       setLoading(true);
-      setStatus('🔍 Querying Solana blockchain...');
+      setStatus(`🔍 Querying Solana ${net.toUpperCase()}...`);
       setAccountData(null);
       setTokens([]);
       setTransactions([]);
 
-      // 1. Validate the public key
+      // 1. Choose active connection based on network
+      const activeConnection = net === 'mainnet' 
+        ? new Connection(MAINNET_RPC, 'confirmed')
+        : devnetConnection;
+
+      // 2. Validate the public key
       const targetPubKey = new PublicKey(addressStr);
 
-      // 2. Fetch SOL Balance
-      const lamports = await connection.getBalance(targetPubKey);
+      // 3. Fetch SOL Balance
+      const lamports = await activeConnection.getBalance(targetPubKey);
       const solBalance = lamports / LAMPORTS_PER_SOL;
 
-      // 3. Check if account is a regular Wallet or a Smart Contract Program
-      const accountInfo = await connection.getAccountInfo(targetPubKey);
+      // 4. Check if account is a regular Wallet or a Smart Contract Program
+      const accountInfo = await activeConnection.getAccountInfo(targetPubKey);
       const isProgram = accountInfo ? accountInfo.executable : false;
       const ownerProgram = accountInfo ? accountInfo.owner.toString() : 'None';
 
@@ -52,11 +63,12 @@ export default function ExplorerCard() {
         solBalance,
         isProgram,
         ownerProgram,
+        network: net,
       });
 
-      // 4. Query all SPL Token holdings owned by this wallet
+      // 5. Query all SPL Token holdings owned by this wallet
       try {
-        const tokenAccounts = await connection.getParsedTokenAccountsByOwner(targetPubKey, {
+        const tokenAccounts = await activeConnection.getParsedTokenAccountsByOwner(targetPubKey, {
           programId: TOKEN_PROGRAM_ID,
         });
 
@@ -76,11 +88,11 @@ export default function ExplorerCard() {
         console.warn('Could not fetch token accounts:', tokenErr);
       }
 
-      // 5. Fetch Recent Transactions (last 10)
-      const signatures = await connection.getSignaturesForAddress(targetPubKey, { limit: 10 });
+      // 6. Fetch Recent Transactions (last 10)
+      const signatures = await activeConnection.getSignaturesForAddress(targetPubKey, { limit: 10 });
       setTransactions(signatures);
 
-      setStatus(`✅ Ready! Displaying data for ${addressStr.slice(0, 4)}...${addressStr.slice(-4)}`);
+      setStatus(`✅ Ready! Displaying ${net.toUpperCase()} data for ${addressStr.slice(0, 4)}...${addressStr.slice(-4)}`);
     } catch (err) {
       console.error('Inspect error:', err);
       setStatus(`❌ Invalid address or error: ${err.message}`);
@@ -89,28 +101,56 @@ export default function ExplorerCard() {
     }
   };
 
-  // Automatically inspect user's wallet when connected
+  // Change network and re-inspect automatically
+  const handleNetworkSwitch = (newNet) => {
+    setNetwork(newNet);
+    if (searchAddress.trim()) {
+      inspectAddress(searchAddress, newNet);
+    }
+  };
+
+  // Load wallet or default address on mount
   useEffect(() => {
-    if (publicKey) {
+    if (publicKey && network === 'devnet') {
       const pubkeyStr = publicKey.toString();
       setSearchAddress(pubkeyStr);
-      inspectAddress(pubkeyStr);
+      inspectAddress(pubkeyStr, 'devnet');
     }
   }, [publicKey]);
 
   return (
     <div className="explorer-card">
-      <h3 className="explorer-title">🔍 Solana Inspector (Mini Solscan)</h3>
-      <p className="explorer-subtitle">
-        Search any Solana wallet address or smart contract to view balances, tokens & live transactions.
-      </p>
+      <div className="explorer-top-row">
+        <div>
+          <h3 className="explorer-title">🔍 Solana Inspector (Mini Solscan)</h3>
+          <p className="explorer-subtitle">
+            Inspect real accounts on Mainnet or test wallets on Devnet.
+          </p>
+        </div>
+
+        {/* Network Toggle */}
+        <div className="network-pill-toggle">
+          <button
+            className={`net-toggle-btn ${network === 'mainnet' ? 'active-mainnet' : ''}`}
+            onClick={() => handleNetworkSwitch('mainnet')}
+          >
+            🟣 Mainnet-Beta
+          </button>
+          <button
+            className={`net-toggle-btn ${network === 'devnet' ? 'active-devnet' : ''}`}
+            onClick={() => handleNetworkSwitch('devnet')}
+          >
+            🟢 Devnet
+          </button>
+        </div>
+      </div>
 
       {/* Search Input Bar */}
       <div className="search-box">
         <input
           type="text"
           className="search-input"
-          placeholder="Paste any Solana Public Key..."
+          placeholder="Paste any Solana Public Key (e.g. 3rcg3ncgrLzw5c1yX8...)"
           value={searchAddress}
           onChange={(e) => setSearchAddress(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && inspectAddress()}
@@ -132,9 +172,14 @@ export default function ExplorerCard() {
       {accountData && (
         <div className="account-overview-card">
           <div className="account-header">
-            <span className={`account-type-pill ${accountData.isProgram ? 'pill-program' : 'pill-user'}`}>
-              {accountData.isProgram ? '⚙️ Smart Contract (Program)' : '👤 User Wallet'}
-            </span>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <span className={`account-type-pill ${accountData.isProgram ? 'pill-program' : 'pill-user'}`}>
+                {accountData.isProgram ? '⚙️ Smart Contract (Program)' : '👤 User Wallet'}
+              </span>
+              <span className={`net-indicator-pill ${accountData.network === 'mainnet' ? 'net-mainnet' : 'net-devnet'}`}>
+                {accountData.network.toUpperCase()}
+              </span>
+            </div>
             <span style={{ fontSize: '11px', color: '#64748b' }}>
               Owner: {accountData.ownerProgram.slice(0, 8)}...
             </span>
@@ -143,14 +188,14 @@ export default function ExplorerCard() {
           <div className="account-address">{accountData.address}</div>
 
           <div className="sol-balance-banner">
-            <span style={{ color: '#94a3b8', fontSize: '13px' }}>Native SOL Balance</span>
+            <span style={{ color: '#9da4b0', fontSize: '13px', fontWeight: 600 }}>Native SOL Balance</span>
             <span className="balance-amount">{accountData.solBalance.toFixed(4)} SOL</span>
           </div>
 
           {/* SPL Token Holdings Section */}
           <div className="section-title">
             <span>🪙 SPL Token Portfolio</span>
-            <span style={{ fontSize: '12px', color: '#94a3b8' }}>{tokens.length} token(s)</span>
+            <span style={{ fontSize: '12px', color: '#9da4b0' }}>{tokens.length} token(s)</span>
           </div>
 
           {tokens.length > 0 ? (
@@ -158,20 +203,20 @@ export default function ExplorerCard() {
               {tokens.map((token, idx) => (
                 <div key={idx} className="token-row">
                   <span className="token-mint" title={token.mint}>
-                    {token.mint.slice(0, 6)}...{token.mint.slice(-6)}
+                    {token.mint.slice(0, 8)}...{token.mint.slice(-8)}
                   </span>
                   <span className="token-qty">{token.amount}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="empty-text">No SPL tokens found for this address.</div>
+            <div className="empty-text">No SPL tokens found for this address on {accountData.network}.</div>
           )}
 
           {/* Recent Transactions List */}
           <div className="section-title">
             <span>⚡ Recent On-Chain Transactions</span>
-            <span style={{ fontSize: '12px', color: '#94a3b8' }}>Latest {transactions.length}</span>
+            <span style={{ fontSize: '12px', color: '#9da4b0' }}>Latest {transactions.length}</span>
           </div>
 
           {transactions.length > 0 ? (
@@ -180,11 +225,13 @@ export default function ExplorerCard() {
                 const dateStr = tx.blockTime
                   ? new Date(tx.blockTime * 1000).toLocaleTimeString()
                   : 'Pending';
+                const explorerUrl = `https://solscan.io/tx/${tx.signature}${accountData.network === 'devnet' ? '?cluster=devnet' : ''}`;
+                
                 return (
                   <div key={idx} className="tx-item">
                     <div className="tx-left">
                       <a
-                        href={`https://explorer.solana.com/tx/${tx.signature}?cluster=devnet`}
+                        href={explorerUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="tx-sig-link"
@@ -205,7 +252,7 @@ export default function ExplorerCard() {
               })}
             </div>
           ) : (
-            <div className="empty-text">No recent transactions found.</div>
+            <div className="empty-text">No recent transactions found on {accountData.network}.</div>
           )}
         </div>
       )}

@@ -13,21 +13,74 @@
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-.explorer-title {
-  margin: 0 0 6px 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text-primary);
+.explorer-top-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
-.explorer-subtitle {
-  margin: 0 0 24px 0;
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
+.network-pill-toggle {
+  display: flex;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.net-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.net-toggle-btn:hover {
+  color: #ffffff;
+}
+
+.net-toggle-btn.active-mainnet {
+  background: rgba(168, 85, 247, 0.2);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.2);
+}
+
+.net-toggle-btn.active-devnet {
+  background: rgba(0, 245, 155, 0.15);
+  color: var(--status-success);
+  border: 1px solid rgba(0, 245, 155, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 245, 155, 0.15);
+}
+
+.net-indicator-pill {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.net-mainnet {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.net-devnet {
+  background: rgba(0, 245, 155, 0.12);
+  color: var(--status-success);
+  border: 1px solid rgba(0, 245, 155, 0.25);
 }
 
 .search-box {
