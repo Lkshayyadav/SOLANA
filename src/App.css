@@ -45,7 +45,7 @@ body {
 /* Tab Navigation */
 .tab-navigation {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background: #131823;
   padding: 4px;
   border-radius: 12px;

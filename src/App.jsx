@@ -5,6 +5,7 @@ import SwapCard from './components/SwapCard';
 import AirdropCard from './components/AirdropCard';
 import SendSolCard from './components/SendSolCard';
 import SignMessageCard from './components/SignMessageCard';
+import ExplorerCard from './components/ExplorerCard';
 
 // Import official Wallet Adapter CSS styles
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -14,7 +15,7 @@ function App() {
   // Alchemy Solana Devnet RPC endpoint
   const endpoint = "https://solana-devnet.g.alchemy.com/v2/alch_S6FOUrfTXMPRPVYnI0LY-";
 
-  // Active tab state: 'airdrop' | 'transfer' | 'sign' | 'swap'
+  // Active tab state: 'airdrop' | 'transfer' | 'sign' | 'swap' | 'explorer'
   const [activeTab, setActiveTab] = useState('airdrop');
 
   return (
@@ -55,6 +56,12 @@ function App() {
               >
                 🔄 Swap
               </button>
+              <button 
+                className={`tab-btn ${activeTab === 'explorer' ? 'active' : ''}`}
+                onClick={() => setActiveTab('explorer')}
+              >
+                🔍 Explorer
+              </button>
             </nav>
 
             {/* Active View */}
@@ -63,6 +70,7 @@ function App() {
               {activeTab === 'transfer' && <SendSolCard />}
               {activeTab === 'sign' && <SignMessageCard />}
               {activeTab === 'swap' && <SwapCard />}
+              {activeTab === 'explorer' && <ExplorerCard />}
             </main> 
           </div>
         </WalletModalProvider>
