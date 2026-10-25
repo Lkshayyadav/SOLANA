@@ -1,0 +1,69 @@
+.swap-card {
+  background: #131823;
+  border: 1px solid #1e2430;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.swap-title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  color: #f8fafc;
+}
+
+.token-box {
+  background: #0b0e14;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.token-header {
+  display: flex;
+  justify-content: space-between;
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.token-input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  outline: none;
+  width: 100%;
+}
+
+.token-output {
+  font-size: 24px;
+  color: #10b981;
+}
+
+.swap-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 8px;
+}
+
+.swap-btn:disabled {
+  background: #334155;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.status-msg {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #94a3b8;
+  word-break: break-all;
+}
